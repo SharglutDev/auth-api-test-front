@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { Alert, Button, Container, FloatingLabel, Form } from "react-bootstrap";
 import User from "../models/interfaces/User";
 
@@ -15,14 +15,8 @@ interface AuthResponse {
 
 const Auth = ({ button }: { button: string }) => {
   const [authMessage, setAuthMessage] = useState<string>("");
-  const [accessToken, setAccessToken] = useState<string | undefined>();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    accessToken && localStorage.setItem(accessToken, "accessToken");
-    console.log(`Stored Access Token : ${accessToken}`);
-  }, [accessToken]);
 
   const authUser = async () => {
     let message = "";
@@ -43,7 +37,13 @@ const Auth = ({ button }: { button: string }) => {
         );
         console.log(response.data);
         message = response.data.message;
-        button === "Login" && setAccessToken(response.data.data.accessToken);
+        if (response.data.data.accessToken) {
+          localStorage.setItem("accessToken", response.data.data.accessToken);
+          console.log(
+            "access token saved to localstorage : ",
+            response.data.data.accessToken
+          );
+        }
       } catch (error: any) {
         console.log(error?.message || error);
         message = error?.message || error;

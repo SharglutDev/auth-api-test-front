@@ -1,5 +1,6 @@
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Logout from "./Logout";
 
 function Navigation() {
   return (
@@ -12,11 +13,17 @@ function Navigation() {
               <Link to="/" className="nav-link">
                 Home
               </Link>
+              <Link to="/users" className="nav-link">
+                Users
+              </Link>
               <Link to="/login" className="nav-link">
                 Login
               </Link>
               <Link to="/signin" className="nav-link">
                 Signin
+              </Link>
+              <Link to="/login" className="nav-Link">
+                <Logout />
               </Link>
             </Nav>
           </Navbar.Collapse>
